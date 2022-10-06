@@ -1,25 +1,39 @@
+#apiVersion: argoproj.io/v1alpha1
+#kind: ApplicationSet
+#metadata:
+#  name: guestbook
+#spec:
+#  generators:
+#  - list:
+#      elements:
+#      - namespace: s-testbox-01
+#      - namespace: s-testbox-02
+#  template:
+#    metadata:
+#      name: '{{namespace}}'
+#    spec:
+#      project: default
+#      source:
+#        repoURL: https://github.com/alikayim/gitops-example.git
+#        targetRevision: HEAD
+#        path: /
+#      destination:
+#        server: http://kubernetes.default.svc
+#        namespace: '{{namespace}}'
+#      syncPolicy:
+#        syncOptions:
+#          - CreateNamespace=true
 apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
+kind: Application
 metadata:
   name: guestbook
+  namespace: argocd
 spec:
-  generators:
-  - list:
-      elements:
-      - namespace: s-testbox-01
-      - namespace: s-testbox-02
-  template:
-    metadata:
-      name: '{{namespace}}'
-    spec:
-      project: default
-      source:
-        repoURL: https://github.com/alikayim/gitops-example.git
-        targetRevision: HEAD
-        path: /
-      destination:
-        server: http://kubernetes.default.svc
-        namespace: '{{namespace}}'
-      syncPolicy:
-        syncOptions:
-          - CreateNamespace=true
+  project: default
+  source:
+    repoURL: https://github.com/argoproj/argocd-example-apps.git
+    targetRevision: HEAD
+    path: guestbook
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: guestbook
