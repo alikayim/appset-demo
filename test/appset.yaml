@@ -16,7 +16,7 @@ spec:
       source:
         repoURL: https://github.com/alikayim/gitops-example.git
         targetRevision: HEAD
-        path: /
+        path: deployment.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{namespace}}'
